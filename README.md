@@ -21,7 +21,7 @@ func main() {
         panic(err)
     }
     _ = cli.Connect("key", types.CreateIfNotExist, types.NoLinear)
-    _ = cli.Set("key", "hello", types.CreateIfNotExist)
+    _ = cli.Set("key", "hello")
     v, _ := cli.Get("key")
     fmt.Println(v)
 }
