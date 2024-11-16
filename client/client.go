@@ -53,10 +53,7 @@ func (c *Client) Close() error {
 	return c.conn.Close()
 }
 
-type Subscribed struct {
-	Ch          <-chan ErrorableEvent
-	Unsubscribe chan struct{}
-}
+
 
 func (c *Client) Watch(key string, eventType types.EventType) (Subscribed, error) {
 	stream, err := c.ev.SubscribeEvents(context.Background(), &pb.SubscribeRequest{
