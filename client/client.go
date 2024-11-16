@@ -5,9 +5,11 @@ import (
 	"github.com/KVRes/PiccadillySDK/pb"
 	"github.com/KVRes/PiccadillySDK/types"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/connectivity"
 	"google.golang.org/grpc/credentials/insecure"
 	"path/filepath"
 	"strings"
+	"time"
 )
 
 type Client struct {
@@ -20,6 +22,15 @@ type Client struct {
 
 func (c *Client) GetConn() *grpc.ClientConn {
 	return c.conn
+}
+
+func (c *Client) AutoReconnectBlocky(interval time.Duration) {
+	for {
+		if c.conn.GetState() != connectivity.Ready {
+			c.conn.Connect()
+		}
+		time.Sleep(interval)
+	}
 }
 
 func (c *Client) Copy() *Client {
