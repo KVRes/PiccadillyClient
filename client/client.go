@@ -18,6 +18,16 @@ type Client struct {
 	path string
 }
 
+func (c *Client) Copy() *Client {
+	return &Client{
+		conn: c.conn,
+		ev:   c.ev,
+		crud: c.crud,
+		mgr:  c.mgr,
+		path: c.path,
+	}
+}
+
 func NewClient(addr string) (*Client, error) {
 	conn, err := grpc.NewClient(addr, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
