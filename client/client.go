@@ -43,8 +43,9 @@ func (c *Client) Copy() *Client {
 	}
 }
 
-func NewClient(addr string) (*Client, error) {
-	conn, err := grpc.NewClient(addr, grpc.WithTransportCredentials(insecure.NewCredentials()))
+func NewClient(addr string, opts ...grpc.DialOption) (*Client, error) {
+	opts = append(opts, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	conn, err := grpc.NewClient(addr, opts...)
 	if err != nil {
 		return nil, err
 	}
